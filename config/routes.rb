@@ -1,5 +1,22 @@
 Rails.application.routes.draw do
+
+  get 'home/index'
+
+  get 'home/about'
+
+  get 'home/contact'
+
+  get 'home/faqs'
+
+  get 'home/pricing'
+
+  get 'home/features'
   resources :invoices
+  
+  root to: 'home#index' 
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
