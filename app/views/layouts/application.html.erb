@@ -14,8 +14,18 @@
       <li><%= link_to "About", home_about_path %></li>
       <li><%= link_to "Features", home_features_path %></li>
       <li><%= link_to "Invoices", invoices_path %></li>
+
+      <% if current_user %>
+        <li><%= link_to "Logout", destroy_user_session_path, method: :delete %><li>
+      <% else %>
+        <li><%= link_to "Sign-in", user_session_path, method: :post %><li>
+        <li><%= link_to "Sign-up", new_user_registration_path, method: :get %><li>
+      <% end %>
+
     </ul>
 
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
     <%= yield %>
     </div>
 
