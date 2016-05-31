@@ -5,6 +5,12 @@ class CompaniesController < ApplicationController
   # GET /companies.json
   def index
     @companies = Company.all
+
+    respond_to do |format|
+      format.html
+      format.csv { render text: @companies.to_csv}
+    end
+
   end
 
   # GET /companies/1
@@ -65,7 +71,7 @@ class CompaniesController < ApplicationController
     Company.import(params[:file])
     redirect_to companies_path, notice: "Companies Added Successfully"
   end
-  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company
