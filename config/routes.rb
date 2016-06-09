@@ -1,10 +1,11 @@
 Rails.application.routes.draw do
 
+
   resources :employees
-  resources :companies do 
+  resources :companies do
     collection { post :import }
   end
-  
+
   devise_for :users
   get 'home/index'
 
@@ -17,9 +18,11 @@ Rails.application.routes.draw do
   get 'home/pricing'
 
   get 'home/features'
-  resources :invoices
-  
-  root to: 'home#index' 
+  resources :invoices do
+    resources :purchases, except: [:index], controller: 'invoices/purchases'
+  end
+
+  root to: 'home#index'
 
 
 
