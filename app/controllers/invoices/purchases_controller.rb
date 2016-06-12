@@ -15,12 +15,14 @@ class Invoices::PurchasesController < ApplicationController
 
   # GET /purchases/new
   def new
-    @invoince = Invoice.find(params[:invoice_id])
+    @invoice = Invoice.find(params[:invoice_id])
     @purchase = Purchase.new
   end
 
   # GET /purchases/1/edit
   def edit
+    @invoice = Invoice.find(params[:invoice_id])
+    @purchase = Purchase.find(params[:id])
   end
 
   # POST /purchases
@@ -58,11 +60,19 @@ class Invoices::PurchasesController < ApplicationController
   # DELETE /purchases/1
   # DELETE /purchases/1.json
   def destroy
-    @purchase.destroy
-    respond_to do |format|
-      format.html { redirect_to purchases_url, notice: 'Purchase was successfully destroyed.' }
-      format.json { head :no_content }
+
+    @invoice = Invoice.find(params[:invoice_id])
+    @purchase = Purchase.find(params[:id])
+    title = @purchase.name
+
+    if @purchase.destroy
+	    flash[:notice] = "\"#{title}\" was deleted successfully."
+	    redirect_to @invoice
+    else
+	    flash[:errror] = "There was an error deleting #{title}"
+	    render :show
     end
+
   end
 
   private
@@ -73,6 +83,6 @@ class Invoices::PurchasesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def purchase_params
-      params.require(:purchase).permit(:name, :category, :quantity, :invoice_id)
+      params.require(:purchase).permit(:name, :category, :quantity, :invoice_id, :price)
     end
 end
